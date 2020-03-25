@@ -1,12 +1,29 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        {% include "/ressources/meta.html.twig" %}
+        {% include "/ressources/csstop.html.twig" %}
+        {% block csstop %}{% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <div class="preloader-outer">
+            <div class="loader"></div>
+        </div>
+
+        <div id="wt-wrapper" class="wt-wrapper wt-haslayout">
+            <!-- Content Wrapper Start -->
+            <div class="wt-contentwrapper">
+                {% include "/ressources/header.html.twig" %}
+        
+                {% block body %}{% endblock %}
+
+        
+                {% include "/ressources/footer.html.twig" %}
+        	</div>
+		<!--Content Wrapper End-->
+	    </div>
+        
+        {% include "/ressources/jsbottom.html.twig" %}
         {% block javascripts %}{% endblock %}
     </body>
 </html>
