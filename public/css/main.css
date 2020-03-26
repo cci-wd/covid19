@@ -1643,7 +1643,7 @@ body.wt-login .wt-userlogedin{display: block;}
 }
 .wt-categoryslidup p{
 	font-size: 14px;
-	margin: 0 0 28px;
+	margin: 0 0 0px;
 	line-height: 24px;
 }
 .wt-categoryslidup a{
