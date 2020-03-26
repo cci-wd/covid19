@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
@@ -34,20 +35,16 @@ class RegistrationFormType extends AbstractType
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Veuillez rentrer un mot de passe',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Votre mot de passe doit faire au minimum {{ limit }} caractères',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 255,
-                    ]),
-                ],
+                'required' => true,                
             ])
             ->add('address')
             ->add('tel')
+            ->add('type', ChoiceType::class, [
+                'choices'  => [
+                    'J\'ai besoin d\'aide' => 1,
+                    'Je veux aider' => 2,
+                ],
+            ])
             ->add('city', EntityType::class, [
                 // looks for choices from this entity
                 'class' => City::class,

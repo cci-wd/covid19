@@ -68,6 +68,11 @@ class User implements UserInterface
      */
     private $city;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $type;
+
     public function __construct()
     {
         $this->asks = new ArrayCollection();
@@ -258,6 +263,18 @@ class User implements UserInterface
     public function setCity(?City $city): self
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    public function getType(): ?int
+    {
+        return $this->type;
+    }
+
+    public function setType(int $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }
