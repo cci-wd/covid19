@@ -12,7 +12,7 @@
 										<div class="collapse navbar-collapse wt-navigation" id="navbarNav">
 											<ul class="navbar-nav">
 												<li class="nav-item">
-													<a href="howitworks.html">Trouver une mission</a>
+													<a href="{{ path("les-missions") }}">Trouver une mission</a>
 												</li>
                                                 <li class="nav-item">
 													<a href="howitworks.html">Mes missions</a>
@@ -26,7 +26,7 @@
 									{% if app.user %}
 									<div class="wt-loginarea">
 										<a href="{{ path("app_logout") }}" class="wt-btn" style="background-color: white; color: black;">Se déconnecter</a>
-										<a href="javascript:;" class="wt-btn">Mon profil</a>
+										<a href="{{ path("ask_new") }}" class="wt-btn">Créer une mission</a>
 									</div>
 									{% else %}
 									<div class="wt-loginarea">

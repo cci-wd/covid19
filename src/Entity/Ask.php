@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -27,11 +28,6 @@ class Ask
      * @ORM\Column(type="text")
      */
     private $description;
-
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $objectif;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\City", inversedBy="asks")

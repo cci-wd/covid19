@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Ask{% endblock %}
+
+{% block body %}
+			<!--Inner Home Banner Start-->
+			<div class="wt-haslayout wt-innerbannerholder">
+				<div class="container">
+					<div class="row justify-content-md-center">
+						<div class="col-xs-12 col-sm-12 col-md-8 push-md-2 col-lg-6 push-lg-3">
+							<div class="wt-innerbannercontent">
+							<div class="wt-title"><h2>Edition d'une mission</h2></div>
+							<ol class="wt-breadcrumb">
+								<li><a href="{{ path("home") }}">Accueil</a></li>
+								<li class="wt-active">Edition d'une mission</li>
+							</ol>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--Inner Home End-->
+			<!--Main Start-->                
+			<main id="wt-main" class="wt-main wt-haslayout wt-innerbgcolor">
+				<!--Register Form Start-->
+				<div class="wt-haslayout wt-main-section">
+					<div class="container">
+						<div class="row justify-content-md-center">
+							<div class="col-xs-12 col-sm-12 col-md-10 push-md-1 col-lg-8 push-lg-2">
+								<div class="wt-registerformhold">
+									<div class="wt-registerformmain">
+										<div class="wt-registerhead">
+											<div class="wt-title">
+												<h3>Edition d'une mission</h3>
+											</div>
+										</div>
+										<div class="wt-joinforms">
+											{{ form_start(form, { 'attr': {'class': 'wt-formtheme wt-formregister'} }) }}
+											{{ form_errors(form) }}
+												<fieldset class="wt-registerformgroup">
+													<div class="form-group form-group-half">
+														<label>Titre de votre mission</label>
+														{{ form_widget(form.title, { 'attr': {'class': 'form-control'} }) }}
+													</div>
+                                                    <div class="form-group form-group-half">
+														<label>Catégorie</label>
+														{{ form_widget(form.mission, { 'attr': {'class': 'chosen-select'} }) }}
+													</div>
+													<div class="form-group">
+														<label>Description de la mission</label>
+														{{ form_widget(form.description, { 'attr': {'class': 'form-control'} }) }}
+													</div>
+													<div class="form-group">
+														<label>La cible de votre mission</label>
+														{{ form_widget(form.benificiaire, { 'attr': {'class': 'chosen-select'} }) }}
+													</div>
+													<div class="form-group form-group-half">
+														<label>État de la mission</label>
+														{{ form_widget(form.status, { 'attr': {'class': 'chosen-select'} }) }}
+													</div>
+													<div class="form-group form-group-half">
+														<label>Votre commune</label>
+														{{ form_widget(form.city, { 'attr': {'class': 'chosen-select'} }) }}
+													</div>
+													<div class="form-group form-group-half text-center">
+														<button type="submit" class="wt-btn">Modifier la mission</button>
+													</div>
+                                                    <div class="form-group form-group-half text-center">
+														<button type="button" class="wt-btn" data-toggle="modal" data-target="#deleteModal">Supprimer la mission</button>
+													</div>
+
+												</fieldset>
+											{{ form_end(form) }}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--Register Form End-->
+			</main>
+			<!--Main End-->
+            <!-- Modal -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <form method="post" action="{{ path('ask_delete', {'id': ask.id}) }}">           
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModal">Suppression de la mission</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                         Attention, suppression d'une mission est définitive
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        {{ include('ask/_delete_form.html.twig') }}
+                    </div>
+                    </form>
+                </div>
+            </div>
+            </div>
+{% endblock %}

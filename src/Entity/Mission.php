@@ -28,6 +28,11 @@ class Mission
      */
     private $asks;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $objectif;
+
     public function __construct()
     {
         $this->asks = new ArrayCollection();
@@ -77,6 +82,18 @@ class Mission
                 $ask->setMission(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getObjectif(): ?string
+    {
+        return $this->objectif;
+    }
+
+    public function setObjectif(string $objectif): self
+    {
+        $this->objectif = $objectif;
 
         return $this;
     }

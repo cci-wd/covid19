@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Ask{% endblock %}
+
+{% block body %}
+			<!--Inner Home Banner Start-->
+			<div class="wt-haslayout wt-innerbannerholder">
+				<div class="container">
+					<div class="row justify-content-md-center">
+						<div class="col-xs-12 col-sm-12 col-md-8 push-md-2 col-lg-6 push-lg-3">
+							<div class="wt-innerbannercontent">
+							<div class="wt-title"><h2>Proposer une mission</h2></div>
+							<ol class="wt-breadcrumb">
+								<li><a href="{{ path("home") }}">Accueil</a></li>
+								<li class="wt-active">Proposer une mission</li>
+							</ol>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--Inner Home End-->
+			<!--Main Start-->                
+			<main id="wt-main" class="wt-main wt-haslayout wt-innerbgcolor">
+				<!--Register Form Start-->
+				<div class="wt-haslayout wt-main-section">
+					<div class="container">
+						<div class="row justify-content-md-center">
+							<div class="col-xs-12 col-sm-12 col-md-10 push-md-1 col-lg-8 push-lg-2">
+								<div class="wt-registerformhold">
+									<div class="wt-registerformmain">
+										<div class="wt-registerhead">
+											<div class="wt-title">
+												<h3>Proposer une mission</h3>
+											</div>
+											<div class="wt-description">
+												<p>Vous avez besoin d'aide, d'assistance ou de présence ? Proposer votre mission !</p>
+											</div>
+										</div>
+										<div class="wt-joinforms">
+											{{ form_start(form, { 'attr': {'class': 'wt-formtheme wt-formregister'} }) }}
+											{{ form_errors(form) }}
+												<fieldset class="wt-registerformgroup">
+													<div class="form-group form-group-half">
+														<label>Titre de votre mission</label>
+														{{ form_widget(form.title, { 'attr': {'class': 'form-control'} }) }}
+													</div>
+                                                    <div class="form-group form-group-half">
+														<label>Catégorie</label>
+														{{ form_widget(form.mission, { 'attr': {'class': 'chosen-select'} }) }}
+													</div>
+													<div class="form-group">
+														<label>Description de la mission</label>
+														{{ form_widget(form.description, { 'attr': {'class': 'form-control'} }) }}
+													</div>
+													<div class="form-group">
+														<label>La cible de votre mission</label>
+														{{ form_widget(form.benificiaire, { 'attr': {'class': 'chosen-select'} }) }}
+													</div>
+													<div class="form-group form-group-half">
+														<label>État de la mission</label>
+														{{ form_widget(form.status, { 'attr': {'class': 'chosen-select'} }) }}
+													</div>
+													<div class="form-group form-group-half">
+														<label>Votre commune</label>
+														{{ form_widget(form.city, { 'attr': {'class': 'chosen-select'} }) }}
+													</div>
+													<div class="form-group text-center">
+														<button type="submit" class="wt-btn">Proposer une mission</button>
+													</div>
+												</fieldset>
+											{{ form_end(form) }}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--Register Form End-->
+			</main>
+			<!--Main End-->
+{% endblock %}
