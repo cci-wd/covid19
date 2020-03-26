@@ -24,19 +24,19 @@ class City
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="city_id", orphanRemoval=true)
-     */
-    private $users;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Ask", mappedBy="city_id", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Ask", mappedBy="city", orphanRemoval=true)
      */
     private $asks;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="city", orphanRemoval=true)
+     */
+    private $users;
+
     public function __construct()
     {
-        $this->users = new ArrayCollection();
         $this->asks = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -57,37 +57,6 @@ class City
     }
 
     /**
-     * @return Collection|User[]
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->setCityId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->users->contains($user)) {
-            $this->users->removeElement($user);
-            // set the owning side to null (unless already changed)
-            if ($user->getCityId() === $this) {
-                $user->setCityId(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Ask[]
      */
     public function getAsks(): Collection
@@ -99,7 +68,7 @@ class City
     {
         if (!$this->asks->contains($ask)) {
             $this->asks[] = $ask;
-            $ask->setCityId($this);
+            $ask->setCity($this);
         }
 
         return $this;
@@ -110,8 +79,39 @@ class City
         if ($this->asks->contains($ask)) {
             $this->asks->removeElement($ask);
             // set the owning side to null (unless already changed)
-            if ($ask->getCityId() === $this) {
-                $ask->setCityId(null);
+            if ($ask->getCity() === $this) {
+                $ask->setCity(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setCity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            // set the owning side to null (unless already changed)
+            if ($user->getCity() === $this) {
+                $user->setCity(null);
             }
         }
 

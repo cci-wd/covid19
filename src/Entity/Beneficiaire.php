@@ -24,12 +24,12 @@ class Beneficiaire
     private $label;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      */
     private $content;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Ask", mappedBy="benificiaire_id")
+     * @ORM\OneToMany(targetEntity="App\Entity\Ask", mappedBy="benificiaire", orphanRemoval=true)
      */
     private $asks;
 
@@ -37,6 +37,8 @@ class Beneficiaire
     {
         $this->asks = new ArrayCollection();
     }
+
+
 
     public function getId(): ?int
     {
@@ -79,7 +81,7 @@ class Beneficiaire
     {
         if (!$this->asks->contains($ask)) {
             $this->asks[] = $ask;
-            $ask->addBenificiaireId($this);
+            $ask->setBenificiaire($this);
         }
 
         return $this;
@@ -89,7 +91,10 @@ class Beneficiaire
     {
         if ($this->asks->contains($ask)) {
             $this->asks->removeElement($ask);
-            $ask->removeBenificiaireId($this);
+            // set the owning side to null (unless already changed)
+            if ($ask->getBenificiaire() === $this) {
+                $ask->setBenificiaire(null);
+            }
         }
 
         return $this;

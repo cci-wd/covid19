@@ -25,13 +25,13 @@ class Answer
      * @ORM\ManyToOne(targetEntity="App\Entity\Ask", inversedBy="answers")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $ask_id;
+    private $ask;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="answers")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user_id;
+    private $user;
 
     /**
      * @ORM\Column(type="datetime")
@@ -55,26 +55,26 @@ class Answer
         return $this;
     }
 
-    public function getAskId(): ?Ask
+    public function getAsk(): ?Ask
     {
-        return $this->ask_id;
+        return $this->ask;
     }
 
-    public function setAskId(?Ask $ask_id): self
+    public function setAsk(?Ask $ask): self
     {
-        $this->ask_id = $ask_id;
+        $this->ask = $ask;
 
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?User $user_id): self
+    public function setUser(?User $user): self
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }
