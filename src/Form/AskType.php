@@ -11,6 +11,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class AskType extends AbstractType
 {
@@ -19,9 +20,12 @@ class AskType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
-            ->add('objectif')
-            ->add('status')
-            ->add('date')
+            ->add('status', ChoiceType::class, [
+                'choices'  => [
+                    'En ligne' => true,
+                    'Hors ligne' => false,
+                ],
+            ])
             ->add('city', EntityType::class, [
                 // looks for choices from this entity
                 'class' => City::class,

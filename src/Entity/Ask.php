@@ -30,11 +30,6 @@ class Ask
     private $description;
 
     /**
-     * @ORM\Column(type="text")
-     */
-    private $objectif;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\City", inversedBy="asks")
      * @ORM\JoinColumn(nullable=false)
      */

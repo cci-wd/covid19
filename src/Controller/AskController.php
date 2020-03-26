@@ -18,8 +18,11 @@ class AskController extends AbstractController
     public function new(Request $request): Response
     {   
         $current_user = $this->getUser();
+        date_default_timezone_set("Pacific/Noumea");
+        $date = date("d-m-Y");
         $ask = new Ask();
         $ask->setUser($current_user);
+        $ask->setDate(\DateTime::createFromFormat('d-m-Y', $date));
         $form = $this->createForm(AskType::class, $ask);
         $form->handleRequest($request);
 
@@ -32,7 +35,6 @@ class AskController extends AbstractController
         }
 
         return $this->render('ask/new.html.twig', [
-            'current_user' => $current_user,
             'ask' => $ask,
             'form' => $form->createView(),
         ]);
@@ -59,7 +61,7 @@ class AskController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="ask_delete", methods={"DELETE"})
+     * @Route("/delete-mission-private/{id}", name="ask_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Ask $ask): Response
     {
