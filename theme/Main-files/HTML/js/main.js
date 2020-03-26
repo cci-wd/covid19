@@ -275,7 +275,7 @@ jQuery(document).on('ready', function() {
 	/* Lost passowrd Box */
 	jQuery('.wt-forgot-password').on('click', function (e) {     
 		jQuery('.do-login-form').addClass('wt-hide-form');
-		jQuery('.wt-loginheader span').html('Reset Password');
+		jQuery('.wt-loginheader span').html('Réinitialiser mon mot de passe');
 		jQuery('.do-forgot-password-form').removeClass('wt-hide-form');
 	});
 	jQuery('.wt-show-login').on('click', function (e) {       
