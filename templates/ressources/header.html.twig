@@ -3,7 +3,7 @@
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-								<strong class="wt-logo"><a href="index.html"><img src="images/logo.png" alt="company logo here"></a></strong>
+								<strong class="wt-logo"><a href="{{ path("home") }}"><img src="images/logo.png" alt="company logo here"></a></strong>
 								<div class="wt-rightarea">
 									<nav id="wt-nav" class="wt-nav navbar-expand-lg">
 										<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,48 +24,8 @@
 										</div>
 									</nav>
 									<div class="wt-loginarea">
-										<div class="wt-loginoption">
-											<a href="javascript:void(0);" id="wt-loginbtn" class="wt-loginbtn">Se connecter</a>
-											<div class="wt-loginformhold">
-												<div class="wt-loginheader">
-													<span>Se connecter</span>
-													<a href="javascript:;"><i class="fa fa-times"></i></a>
-												</div>
-												<form class="wt-formtheme wt-loginform do-login-form">
-													<fieldset>
-														<div class="form-group">
-															<input type="text" name="username" class="form-control" placeholder="Adresse mail">
-														</div>
-														<div class="form-group">
-															<input type="password" name="password" class="form-control" placeholder="Mot de passe">
-														</div>
-														<div class="wt-logininfo">
-															<a href="javascript:;" class="wt-btn do-login-button">Se connecter</a>
-														</div>
-													</fieldset>
-													<div class="wt-loginfooterinfo">
-														<a href="javascript:;" class="wt-forgot-password">Mot de passe oublié?</a>
-														<a href="register.html">Créer</a>
-													</div>
-												</form>
-											    <form class="wt-formtheme wt-loginform do-forgot-password-form wt-hide-form">
-											        <fieldset>
-											            <div class="form-group">
-											                <input type="email" name="email" class="form-control get_password" placeholder="Email">
-											            </div>
-											           
-											            <div class="wt-logininfo">
-											                <a href="javascript:;" class="wt-btn do-get-password">Récupérer mon mot de passe</a>
-											            </div>     
-											        </fieldset>
-											        <div class="wt-loginfooterinfo">
-											            <a href="javascript:void(0);" class="wt-show-login">Se connecter</a>
-											            <a href="register.html">Créer un compte</a>
-											        </div>
-											    </form>
-											</div>
-										</div>
-										<a href="register.html" class="wt-btn">Créer un compte</a>
+										<a href="{{ path("app_login") }}" class="wt-btn" style="background-color: white; color: black;">Se connecter</a>
+										<a href="{{ path("app_login") }}" class="wt-btn">Créer un compte</a>
 									</div>
 									<div class="wt-userlogedin">
 										<figure class="wt-userimg">
