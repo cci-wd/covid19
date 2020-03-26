@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ask index{% endblock %}
+
+{% block body %}
+    <h1>Ask index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Objectif</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ask in asks %}
+            <tr>
+                <td>{{ ask.id }}</td>
+                <td>{{ ask.title }}</td>
+                <td>{{ ask.description }}</td>
+                <td>{{ ask.objectif }}</td>
+                <td>{{ ask.status ? 'Yes' : 'No' }}</td>
+                <td>{{ ask.date ? ask.date|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('ask_show', {'id': ask.id}) }}">show</a>
+                    <a href="{{ path('ask_edit', {'id': ask.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('ask_new') }}">Create new</a>
+{% endblock %}

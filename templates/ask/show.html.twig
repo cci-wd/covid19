@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ask{% endblock %}
+
+{% block body %}
+    <h1>Ask</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ ask.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ ask.title }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ ask.description }}</td>
+            </tr>
+            <tr>
+                <th>Objectif</th>
+                <td>{{ ask.objectif }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ ask.status ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ ask.date ? ask.date|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('ask_index') }}">back to list</a>
+
+    <a href="{{ path('ask_edit', {'id': ask.id}) }}">edit</a>
+
+    {{ include('ask/_delete_form.html.twig') }}
+{% endblock %}
