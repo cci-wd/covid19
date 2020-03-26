@@ -5,11 +5,12 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -19,14 +20,25 @@ class User
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=180, unique=true)
      */
-    private $name;
+    private $email;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
+    /**
+     * @var string The hashed password
+     * @ORM\Column(type="string")
+     */
+    private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $email;
+    private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -34,25 +46,25 @@ class User
     private $address;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $tel;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Ask", mappedBy="user", orphanRemoval=true)
+     */
+    private $asks;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Answer", mappedBy="user", orphanRemoval=true)
+     */
+    private $answers;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\City", inversedBy="users")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $city_id;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Ask", mappedBy="user_id", orphanRemoval=true)
-     */
-    private $asks;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Answer", mappedBy="user_id", orphanRemoval=true)
-     */
-    private $answers;
+    private $city;
 
     public function __construct()
     {
@@ -65,18 +77,6 @@ class User
         return $this->id;
     }
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
     public function getEmail(): ?string
     {
         return $this->email;
@@ -85,6 +85,79 @@ class User
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getPassword(): string
+    {
+        return (string) $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getSalt()
+    {
+        // not needed when using the "bcrypt" algorithm in security.yaml
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }
@@ -106,21 +179,9 @@ class User
         return $this->tel;
     }
 
-    public function setTel(string $tel): self
+    public function setTel(?string $tel): self
     {
         $this->tel = $tel;
-
-        return $this;
-    }
-
-    public function getCityId(): ?City
-    {
-        return $this->city_id;
-    }
-
-    public function setCityId(?City $city_id): self
-    {
-        $this->city_id = $city_id;
 
         return $this;
     }
@@ -137,7 +198,7 @@ class User
     {
         if (!$this->asks->contains($ask)) {
             $this->asks[] = $ask;
-            $ask->setUserId($this);
+            $ask->setUser($this);
         }
 
         return $this;
@@ -148,8 +209,8 @@ class User
         if ($this->asks->contains($ask)) {
             $this->asks->removeElement($ask);
             // set the owning side to null (unless already changed)
-            if ($ask->getUserId() === $this) {
-                $ask->setUserId(null);
+            if ($ask->getUser() === $this) {
+                $ask->setUser(null);
             }
         }
 
@@ -168,7 +229,7 @@ class User
     {
         if (!$this->answers->contains($answer)) {
             $this->answers[] = $answer;
-            $answer->setUserId($this);
+            $answer->setUser($this);
         }
 
         return $this;
@@ -179,10 +240,22 @@ class User
         if ($this->answers->contains($answer)) {
             $this->answers->removeElement($answer);
             // set the owning side to null (unless already changed)
-            if ($answer->getUserId() === $this) {
-                $answer->setUserId(null);
+            if ($answer->getUser() === $this) {
+                $answer->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }

@@ -29,7 +29,7 @@ class Ask
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      */
     private $objectif;
 
@@ -37,29 +37,25 @@ class Ask
      * @ORM\ManyToOne(targetEntity="App\Entity\City", inversedBy="asks")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $city_id;
+    private $city;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Mission", inversedBy="asks")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $mission_id;
+    private $Mission;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Beneficiaire", inversedBy="asks")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Beneficiaire", inversedBy="asks")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $benificiaire_id;
+    private $benificiaire;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="asks")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user_id;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Answer", mappedBy="ask_id", orphanRemoval=true)
-     */
-    private $answers;
+    private $user;
 
     /**
      * @ORM\Column(type="boolean")
@@ -71,9 +67,13 @@ class Ask
      */
     private $date;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Answer", mappedBy="ask", orphanRemoval=true)
+     */
+    private $answers;
+
     public function __construct()
     {
-        $this->benificiaire_id = new ArrayCollection();
         $this->answers = new ArrayCollection();
     }
 
@@ -118,95 +118,50 @@ class Ask
         return $this;
     }
 
-    public function getCityId(): ?City
+    public function getCity(): ?City
     {
-        return $this->city_id;
+        return $this->city;
     }
 
-    public function setCityId(?City $city_id): self
+    public function setCity(?City $city): self
     {
-        $this->city_id = $city_id;
+        $this->city = $city;
 
         return $this;
     }
 
-    public function getMissionId(): ?Mission
+    public function getMission(): ?Mission
     {
-        return $this->mission_id;
+        return $this->Mission;
     }
 
-    public function setMissionId(?Mission $mission_id): self
+    public function setMission(?Mission $Mission): self
     {
-        $this->mission_id = $mission_id;
+        $this->Mission = $Mission;
 
         return $this;
     }
 
-    /**
-     * @return Collection|Beneficiaire[]
-     */
-    public function getBenificiaireId(): Collection
+    public function getBenificiaire(): ?Beneficiaire
     {
-        return $this->benificiaire_id;
+        return $this->benificiaire;
     }
 
-    public function addBenificiaireId(Beneficiaire $benificiaireId): self
+    public function setBenificiaire(?Beneficiaire $benificiaire): self
     {
-        if (!$this->benificiaire_id->contains($benificiaireId)) {
-            $this->benificiaire_id[] = $benificiaireId;
-        }
+        $this->benificiaire = $benificiaire;
 
         return $this;
     }
 
-    public function removeBenificiaireId(Beneficiaire $benificiaireId): self
+    public function getUser(): ?User
     {
-        if ($this->benificiaire_id->contains($benificiaireId)) {
-            $this->benificiaire_id->removeElement($benificiaireId);
-        }
-
-        return $this;
+        return $this->user;
     }
 
-    public function getUserId(): ?User
+    public function setUser(?User $user): self
     {
-        return $this->user_id;
-    }
-
-    public function setUserId(?User $user_id): self
-    {
-        $this->user_id = $user_id;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Answer[]
-     */
-    public function getAnswers(): Collection
-    {
-        return $this->answers;
-    }
-
-    public function addAnswer(Answer $answer): self
-    {
-        if (!$this->answers->contains($answer)) {
-            $this->answers[] = $answer;
-            $answer->setAskId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAnswer(Answer $answer): self
-    {
-        if ($this->answers->contains($answer)) {
-            $this->answers->removeElement($answer);
-            // set the owning side to null (unless already changed)
-            if ($answer->getAskId() === $this) {
-                $answer->setAskId(null);
-            }
-        }
+        $this->user = $user;
 
         return $this;
     }
@@ -231,6 +186,37 @@ class Ask
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Answer[]
+     */
+    public function getAnswers(): Collection
+    {
+        return $this->answers;
+    }
+
+    public function addAnswer(Answer $answer): self
+    {
+        if (!$this->answers->contains($answer)) {
+            $this->answers[] = $answer;
+            $answer->setAsk($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnswer(Answer $answer): self
+    {
+        if ($this->answers->contains($answer)) {
+            $this->answers->removeElement($answer);
+            // set the owning side to null (unless already changed)
+            if ($answer->getAsk() === $this) {
+                $answer->setAsk(null);
+            }
+        }
 
         return $this;
     }

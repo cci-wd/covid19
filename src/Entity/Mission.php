@@ -24,7 +24,7 @@ class Mission
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Ask", mappedBy="mission_id", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Ask", mappedBy="Mission", orphanRemoval=true)
      */
     private $asks;
 
@@ -62,7 +62,7 @@ class Mission
     {
         if (!$this->asks->contains($ask)) {
             $this->asks[] = $ask;
-            $ask->setMissionId($this);
+            $ask->setMission($this);
         }
 
         return $this;
@@ -73,8 +73,8 @@ class Mission
         if ($this->asks->contains($ask)) {
             $this->asks->removeElement($ask);
             // set the owning side to null (unless already changed)
-            if ($ask->getMissionId() === $this) {
-                $ask->setMissionId(null);
+            if ($ask->getMission() === $this) {
+                $ask->setMission(null);
             }
         }
 
