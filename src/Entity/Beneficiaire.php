@@ -18,20 +18,16 @@ class Beneficiaire
      */
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $label;
-
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $content;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Ask", mappedBy="benificiaire", orphanRemoval=true)
      */
     private $asks;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
 
     public function __construct()
     {
@@ -43,30 +39,6 @@ class Beneficiaire
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getLabel(): ?string
-    {
-        return $this->label;
-    }
-
-    public function setLabel(string $label): self
-    {
-        $this->label = $label;
-
-        return $this;
-    }
-
-    public function getContent(): ?string
-    {
-        return $this->content;
-    }
-
-    public function setContent(string $content): self
-    {
-        $this->content = $content;
-
-        return $this;
     }
 
     /**
@@ -96,6 +68,18 @@ class Beneficiaire
                 $ask->setBenificiaire(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }
