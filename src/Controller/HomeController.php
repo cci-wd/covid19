@@ -18,7 +18,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/security", name="security")
+     * @Route("/regle-de-securite", name="securityrules")
      */
     public function securityrules()
     {
