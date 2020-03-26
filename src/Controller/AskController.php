@@ -9,9 +9,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AskController extends AbstractController
 {
+    /**
+     * @Route("/les-missions", name="asklisting")
+     */
+    public function index()
+    {
+
+        $asks = $this->getDoctrine()->getRepository(Ask::class)->findBy(
+            array('status' => '1'),
+            array('date' => 'DESC')
+        );
+
+        return $this->render('ask/vuelisting.html.twig', [
+            'controller_name' => 'AskController',
+            'asks' => $asks
+        ]);
+    }
+  
     /**
      * @Route("/nouvelle-mission", name="ask_new", methods={"GET","POST"})
      */
@@ -57,6 +75,7 @@ class AskController extends AbstractController
         return $this->render('ask/edit.html.twig', [
             'ask' => $ask,
             'form' => $form->createView(),
+
         ]);
     }
 
