@@ -16,4 +16,15 @@ class HomeController extends AbstractController
             'controller_name' => '',
         ]);
     }
+
+    /**
+     * @Route("/security", name="security")
+     */
+    public function securityrules()
+    {
+        return $this->render('pages/security.html.twig', [
+            'controller_name' => '',
+        ]);
+    }
+
 }
