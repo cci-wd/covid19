@@ -33,6 +33,11 @@ class Mission
      */
     private $objectif;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $rules;
+
     public function __construct()
     {
         $this->asks = new ArrayCollection();
@@ -94,6 +99,18 @@ class Mission
     public function setObjectif(string $objectif): self
     {
         $this->objectif = $objectif;
+
+        return $this;
+    }
+
+    public function getRules(): ?string
+    {
+        return $this->rules;
+    }
+
+    public function setRules(?string $rules): self
+    {
+        $this->rules = $rules;
 
         return $this;
     }
