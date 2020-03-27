@@ -39,11 +39,17 @@
 										</div>
 										<div class="wt-joinforms">
 											{{ form_start(form, { 'attr': {'class': 'wt-formtheme wt-formregister'} }) }}
-											{{ form_errors(form) }}
 												<fieldset class="wt-registerformgroup">
-													<div class="form-group form-group-half">
+													<div class="form-group form-group-half">													
 														<label>Titre de votre mission</label>
-														{{ form_widget(form.title, { 'attr': {'class': 'form-control'} }) }}
+														{% if not form.title.vars.valid %}
+															{{ form_widget(form.title, { 'attr': {'class': 'form-control is-invalid'} }) }}
+														{% else %}
+															{{ form_widget(form.title, { 'attr': {'class': 'form-control'} }) }}
+														{% endif %}									
+														<div class="invalid-feedback">
+        													{{ form_errors(form.title) }}
+      													</div>
 													</div>
                                                     <div class="form-group form-group-half">
 														<label>Catégorie</label>
