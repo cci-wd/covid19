@@ -31,6 +31,16 @@ class Contact
      */
     private $content;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $phone;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $surname;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -68,6 +78,30 @@ class Contact
     public function setContent(string $content): self
     {
         $this->content = $content;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getSurname(): ?string
+    {
+        return $this->surname;
+    }
+
+    public function setSurname(string $surname): self
+    {
+        $this->surname = $surname;
 
         return $this;
     }

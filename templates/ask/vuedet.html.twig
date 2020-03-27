@@ -8,7 +8,12 @@
             <div class="row justify-content-md-center">
                 <div class="col-xs-12 col-sm-12 col-md-8 push-md-2 col-lg-6 push-lg-3">
                     <div class="wt-innerbannercontent">
-                        <div class="wt-title"><h2>Détail de la Mission</h2></div>
+                        <div class="wt-title"><h2>{{ ask.title }}</h2></div>
+						<ol class="wt-breadcrumb">
+							<li><a href="{{ path("home") }}">Accueil</a></li>
+							<li><a href="{{ path("asklisting") }}">Trouver une mission</a></li>
+							<li class="wt-active">Détail</li>
+						</ol>
                     </div>
                 </div>
             </div>
@@ -48,7 +53,7 @@
 												<h3>REGLES DE SECURITE</h3>
 											</div>
 											<div class="wt-description">
-												<p>{{ ask.mission.rules }}</p>
+												<p>{{ ask.mission.rules|raw }}</p>
 											</div>
 											<div class="wt-title">
 												<h3>COMMENTAIRE</h3>
