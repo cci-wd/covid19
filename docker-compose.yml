@@ -1,0 +1,39 @@
+version: '3'
+services:
+
+  # App
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: covid19-app
+    command: "php -S 0.0.0.0:9000 -t public"
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    environment:
+      - "DB_PORT=3306"
+      - "DB_HOST=database"
+    ports:
+      - 9000:9000
+    networks:
+      - network
+    depends_on:
+      - database
+
+  # Database
+  database:
+    image: mysql:5.7
+    container_name: covid19-database
+    environment:
+      - "MYSQL_ROOT_PASSWORD=secret"
+      - "MYSQL_DATABASE=covid"
+    ports:
+      - 3306:3306
+    networks:
+      - network
+
+# Networks
+networks:
+  network:
+    driver: bridge
