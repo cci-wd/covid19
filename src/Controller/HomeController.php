@@ -38,6 +38,8 @@ class HomeController extends AbstractController
     public function contact(MailerInterface $mailer, Request $request)
     {
         $task = new Contact();
+        date_default_timezone_set("Pacific/Noumea");
+        $task->setDate(new \DateTime());
         $form = $this->createForm(ContactType::class, $task);
 
         $form->handleRequest($request);
@@ -52,7 +54,14 @@ class HomeController extends AbstractController
                 ->from('entraide@covid.nc')
                 ->to($task->getEmail())
                 ->subject('Message Envoyé!')
-                ->htmlTemplate('emails/signup.html.twig');
+                ->htmlTemplate('mail/contact.html.twig');
+
+                /* A rajouter si tu veux faire passer des variables au template
+                ->context([
+                    'expiration_date' => new \DateTime('+7 days'),
+                    'username' => 'foo',
+                ]) */
+
 
             $mailer->send($message);
     
