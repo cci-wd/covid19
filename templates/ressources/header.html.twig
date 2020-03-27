@@ -14,9 +14,11 @@
 												<li class="nav-item">
 													<a href="{{ path("asklisting") }}">Trouver une mission</a>
 												</li>
+												{% if app.user and app.user.type == 1 %}												
                                                 <li class="nav-item">
 													<a href="{{ path("myask") }}">Mes missions</a>
 												</li>
+												{% endif %}
                                                 <li class="nav-item">
 													<a href="{{ path("securityrules") }}">Règles de sécurité</a>
 												</li>
@@ -24,10 +26,17 @@
 										</div>
 									</nav>
 									{% if app.user %}
-									<div class="wt-loginarea">
-										<a href="{{ path("app_logout") }}" class="wt-btn" style="background-color: white; color: black;">Se déconnecter</a>
-										<a href="{{ path("ask_new") }}" class="wt-btn">Créer une mission</a>
-									</div>
+										{% if app.user.type == 1 %}
+										<div class="wt-loginarea">
+											<a href="{{ path("app_logout") }}" class="wt-btn" style="background-color: white; color: black;">Se déconnecter</a>
+											<a href="{{ path("ask_new") }}" class="wt-btn">Créer une mission</a>
+										</div>
+										{% elseif app.user.type == 2 %}
+										<div class="wt-loginarea">
+											<a href="{{ path("app_logout") }}" class="wt-btn" style="background-color: white; color: black;">Se déconnecter</a>
+											<a href="{{ path("asklisting") }}" class="wt-btn">Trouver une mission</a>
+										</div>
+										{% endif %}
 									{% else %}
 									<div class="wt-loginarea">
 										<a href="{{ path("app_login") }}" class="wt-btn" style="background-color: white; color: black;">Se connecter</a>
