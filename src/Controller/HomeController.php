@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
 class HomeController extends AbstractController
 {
@@ -38,6 +38,8 @@ class HomeController extends AbstractController
     public function contact(MailerInterface $mailer, Request $request)
     {
         $task = new Contact();
+        date_default_timezone_set("Pacific/Noumea");
+        $task->setDate(new \DateTime());
         $form = $this->createForm(ContactType::class, $task);
 
         $form->handleRequest($request);
@@ -48,12 +50,18 @@ class HomeController extends AbstractController
             $entityManager->persist($task);
             $entityManager->flush();
 
-            $message = (new Email())
-                ->from('entraide@covid.com')
+            $message = (new TemplatedEmail())
+                ->from('entraide@covid.nc')
                 ->to($task->getEmail())
-                ->subject('Time for Symfony Mailer!')
-                ->text('Sending emails is fun again!')
-                ->html('<p>See Twig integration for better HTML integration!</p>');
+                ->subject('Message Envoyé!')
+                ->htmlTemplate('mail/contact.html.twig');
+
+                /* A rajouter si tu veux faire passer des variables au template
+                ->context([
+                    'expiration_date' => new \DateTime('+7 days'),
+                    'username' => 'foo',
+                ]) */
+
 
             $mailer->send($message);
     
