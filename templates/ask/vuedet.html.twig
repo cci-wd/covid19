@@ -37,7 +37,7 @@
 												<li><span><i class="far fa-folder"></i> Mission: {{ ask.mission.name }}</span></li>
 											</ul>
 										</div>
-										<div class="wt-btnarea"><a href="javascrip:void(0);" class="wt-btn">Répondre</a></div>
+										<div class="wt-btnarea"><button data-toggle="modal" data-target="#deleteModal" class="wt-btn">Répondre</button></div>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xl-8 float-left">
@@ -87,5 +87,104 @@
 					<!-- User Listing End-->
 				</div>
 			</main>
-			<!--Main End-->
+			<!--Main End-->			
+			{% if app.user %}
+			{# Connection de l'utilisateur approuvé	 #}
+				{% if answers|length != 0 %}
+				{# des demandes existes pour cette mission #}
+					{% for answer in answers %}
+						{% if answer.user == app.user %}
+						{# l'utilisateur à déjà postuler pour cette mission #}
+							<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+								<form method="post" action="{{ path('answer', {'slug': ask.slug}) }}">           
+									<div class="modal-header">
+										<h5 class="modal-title" id="deleteModal">Participer à la mission</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										Tu ne peux malheuresement pas participer deux fois à la même mission..
+										Mais merci pour ton bénévolat, il y a certainement d'autres missions à faire.
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="wt-btn" data-dismiss="modal">Retour</button>
+									</div>
+									</form>
+								</div>
+							</div>
+							</div>
+						{% else %}
+						{# l'utilisateur peut postuler à la mission #}
+							<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+								<form method="post" action="{{ path('answer', {'slug': ask.slug}) }}">           
+									<div class="modal-header">
+										<h5 class="modal-title" id="deleteModal">Participer à la mission</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<textarea type="textarea" name="content" placeholder="Un message, une information supplémentaire..?" rows="5" class="w-100" style="height: auto;"></textarea>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="wt-btn" data-dismiss="modal">Retour</button>
+									</div>
+									</form>
+								</div>
+							</div>
+							</div>
+						{% endif %}
+					{% endfor %}
+				{% else %}
+				{# aucune demande n'existe, l'utilisateur n'a pas pu s'enregistrer encore #}
+							<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+								<form method="post" action="{{ path('answer', {'slug': ask.slug}) }}">           
+									<div class="modal-header">
+										<h5 class="modal-title" id="deleteModal">Participer à la mission</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<textarea type="textarea" name="content" placeholder="Un message, une information supplémentaire..?" rows="5" class="w-100" style="height: auto;"></textarea>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="wt-btn" data-dismiss="modal">Retour</button>
+									</div>
+									</form>
+								</div>
+							</div>
+							</div>
+				{% endif %}
+			{% else %}
+			{# l'utilisateur n'est pas connecté #}
+			<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <form method="post" action="{{ path('answer', {'slug': ask.slug}) }}">           
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModal">Participer à la mission</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                         Pour participez à la mission, il faut te connecter !
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Retour</button>
+						<a href="{{ path("app_login") }}" class="wt-btn">Se connecter</a>
+                    </div>
+                    </form>
+                </div>
+            </div>
+            </div>
+			{% endif %}
 {% endblock %}
