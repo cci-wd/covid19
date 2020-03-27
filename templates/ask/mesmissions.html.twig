@@ -6,10 +6,10 @@
         <div class="row justify-content-md-center">
             <div class="col-xs-12 col-sm-12 col-md-8 push-md-2 col-lg-6 push-lg-3">
                 <div class="wt-innerbannercontent">
-                    <div class="wt-title"><h2>Trouver une mission</h2></div>
+                    <div class="wt-title"><h2>Mes missions</h2></div>
                     <ol class="wt-breadcrumb">
                         <li><a href="{{ path("home") }}">Accueil</a></li>
-                        <li class="wt-active">Trouver une mission</li>
+                        <li class="wt-active">Mes missions</li>
                     </ol>
                 </div>
             </div>
@@ -47,7 +47,7 @@
                                         </ul>
                                         <ul>
                                             <li>
-                                                <a href="" class="wt-btn w-100 mt-2">Consulter</a>
+                                                <a href="{{ path("ask_edit", {id: ask.id}) }}" class="wt-btn w-100 mt-2">Modifier</a>
                                             </li>
                                         </ul>
                                     </div>

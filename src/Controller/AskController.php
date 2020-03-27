@@ -28,6 +28,24 @@ class AskController extends AbstractController
             'asks' => $asks
         ]);
     }
+
+    /**
+     * @Route("/mes-missions", name="myask")
+     */
+    public function myask()
+    {   
+        $user = $this->getUser()->getId();
+
+        $asks = $this->getDoctrine()->getRepository(Ask::class)->findBy(
+            array('user' => $user),
+            array('date' => 'DESC')
+        );
+
+        return $this->render('ask/mesmissions.html.twig', [
+            'controller_name' => 'AskController',
+            'asks' => $asks
+        ]);
+    }
   
     /**
      * @Route("/nouvelle-mission", name="ask_new", methods={"GET","POST"})
