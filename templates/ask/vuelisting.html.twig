@@ -32,8 +32,8 @@
                                 <div class="wt-userlistingcontent">
                                     <div class="wt-contenthead ask-item">
                                         <div class="wt-title">
-                                            <a href="usersingle.html"><i class="fa fa-check-circle"></i> {{ ask.user.name }}</a>
-                                            <h2>{{ ask.title }}</h2>
+                                            <a href="{{ path("ask_show", {'slug': ask.slug}) }}"><i class="fa fa-check-circle"></i> {{ ask.user.name }}</a>
+                                            <a href="{{ path("ask_show", {'slug': ask.slug}) }}"><h2>{{ ask.title }}</h2></a>
                                         </div>
                                         <div class="wt-description">
                                             <p>{{ ask.description }}</p>
@@ -47,7 +47,7 @@
                                         </ul>
                                         <ul>
                                             <li>
-                                                <a href="" class="wt-btn w-100 mt-2">Consulter</a>
+                                                <a href="{{ path("ask_show", {'slug': ask.slug}) }}" class="wt-btn w-100 mt-2">Consulter</a>
                                             </li>
                                         </ul>
                                     </div>
