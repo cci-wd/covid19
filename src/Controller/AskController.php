@@ -4,12 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Ask;
 use App\Form\AskType;
+use App\Entity\Answer;
 use Cocur\Slugify\Slugify;
 use App\Repository\AskRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AskController extends AbstractController
 {
@@ -124,11 +125,41 @@ class AskController extends AbstractController
     public function show($slug, AskRepository $repo): Response
     {   
         $ask = $repo->findOneBySlug($slug);
+        $answers = $this->getDoctrine()->getRepository(Answer::class)->findBy(
+            array(
+                'ask' => $ask,
+            )
+        );
+        // dd($answer);
 
         return $this->render('ask/vuedet.html.twig', [
             'controller_name' => 'AskController',
-            'ask' => $ask
+            'ask' => $ask,
+            'answers' => $answers
         ]);
     }
 
+    /**
+     * @Route("/je-participe/{slug}", name="answer")
+     */
+    public function answer($slug, AskRepository $repo): Response
+    {   
+        $answer = new Answer();
+        $content = $_POST["content"];
+        date_default_timezone_set("Pacific/Noumea");
+        $date = date("d-m-Y");
+        $ask = $repo->findOneBySlug($slug);
+        $current_user = $this->getUser();
+
+        $answer->setContent($content);
+        $answer->setDate(\DateTime::createFromFormat('d-m-Y', $date));
+        $answer->setAsk($ask);
+        $answer->setUser($current_user);
+
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($answer);
+        $entityManager->flush();
+        return $this->redirectToRoute('home');
+    }
 }
