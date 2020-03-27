@@ -44,9 +44,15 @@
 										<div class="wt-description">
 											<p>Aidez un soignant en première ligne vivant proche de chez vous en gardant son enfant, distribuez des produits alimentaires aux plus démunis, gardez le lien avec une personne isolée...</p>
 										</div>
+										{% if app.user %}
 										<div class="wt-btnarea">
-											<a href="javascript:void(0);" class="wt-btn">Je veux aider</a>
+											<a href="{{ path("asklisting") }}" class="wt-btn">Je veux aider</a>
 										</div>
+										{% else %}
+										<div class="wt-btnarea">
+											<a href="{{ path("app_register") }}" class="wt-btn">Je veux aider</a>
+										</div>
+										{% endif %}
 									</div>
 									<div class="wt-companycontent">
 										<div class="wt-companyinfotitle">
@@ -55,9 +61,19 @@
 										<div class="wt-description">
 											<p>Publiez une offre de mission pour que des citoyens viennent vous prêter main forte, dans le respect des règles de sécurité.</p>
 										</div>
+										{% if app.user and app.user.type == 1 %}
 										<div class="wt-btnarea">
-											<a href="javascript:void(0);" class="wt-btn">Proposer une mission</a>
+											<a href="{{ path("ask_new") }}" class="wt-btn">Proposer une mission</a>
 										</div>
+										{% elseif app.user and app.user.type == 2 %}
+										<div class="wt-btnarea">
+											<a href="{{ path("asklisting") }}" class="wt-btn">Participer à une mission</a>
+										</div>
+										{% else %}
+										<div class="wt-btnarea">
+											<a href="{{ path("app_register") }}" class="wt-btn">Proposer une mission</a>
+										</div>
+										{% endif %}
 									</div>
 								</div>
 							</div>

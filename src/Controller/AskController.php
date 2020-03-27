@@ -72,9 +72,9 @@ class AskController extends AbstractController
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($ask);
                 $entityManager->flush();
-                return $this->redirectToRoute('home');
+                return $this->redirectToRoute('myask');
             }
-            
+
         }
 
         return $this->render('ask/new.html.twig', [
