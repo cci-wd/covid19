@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<!--Inner Home Banner Start-->
+    <div class="wt-haslayout wt-innerbannerholder">
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-xs-12 col-sm-12 col-md-8 push-md-2 col-lg-6 push-lg-3">
+                    <div class="wt-innerbannercontent">
+                        <div class="wt-title"><h2>Détail de la Mission</h2></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--Inner Home End-->
+<!--Main Start-->
+			<main id="wt-main" class="wt-main wt-haslayout wt-innerbgcolor">
+				<div class="wt-haslayout wt-main-section">
+					<!-- User Listing Start-->
+					<div class="container">
+						<div class="row">
+							<div id="wt-twocolumns" class="wt-twocolumns wt-haslayout">
+								<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 float-left">
+									<div class="wt-proposalholder">
+										<div class="wt-proposalhead">
+											<h2>{{ ask.title }}</h2>
+											<ul class="wt-userlisting-breadcrumb wt-userlisting-breadcrumbvtwo">
+												<li><span><i class="far fa-calendar-alt"></i> {{ ask.date|date("d/m/Y") }}</span></li>
+												<li><span><i class="fas fa-map-marker-alt"></i> {{ ask.city.name }}</li>
+												<li><span><i class="far fa-folder"></i> Mission: {{ ask.mission.name }}</span></li>
+											</ul>
+										</div>
+										<div class="wt-btnarea"><a href="javascrip:void(0);" class="wt-btn">Répondre</a></div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xl-8 float-left">
+									<div class="wt-projectdetail-holder">
+										<div class="wt-projectdetail">
+                                            <div class="wt-title">
+												<h3>OBJECTIF DE LA MISSION</h3>
+											</div>
+											<div class="wt-description">
+												<p>{{ ask.mission.objectif }}</p>
+											</div>
+                                            <div class="wt-title">
+												<h3>REGLES DE SECURITE</h3>
+											</div>
+											<div class="wt-description">
+												<p>{{ ask.mission.rules }}</p>
+											</div>
+											<div class="wt-title">
+												<h3>COMMENTAIRE</h3>
+											</div>
+											<div class="wt-description">
+												<p>{{ ask.description }}</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-4 float-left">
+									<aside id="wt-sidebar" class="wt-sidebar">
+										<div class="wt-proposalsr">
+                                            <div class="wt-title pt-5 pl-5">
+												<h4>LES 5 REGLES A RESPECTER</h4>
+											</div>
+											<ul class="wt-projectliststyle pb-5 pl-5 pr-5 pt-2">
+                                                <li><span><i class="fa fa-check"></i>Respecter les distances de sécurité</span></li>
+                                                <li><span><i class="fa fa-check"></i>Appliquer les gestes barrières</span></li>
+                                                <li><span><i class="fa fa-check"></i>Je suis un ambassadeur des règles de sécurité</span></li>
+                                                <li><span><i class="fa fa-check"></i>Informer au moindre doute</span></li>
+                                                <li><span><i class="fa fa-check"></i>Protéger au maximum ma santé et celle des autres</span></li>
+											</ul>
+										</div>
+										
+									</aside>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- User Listing End-->
+				</div>
+			</main>
+			<!--Main End-->
+{% endblock %}

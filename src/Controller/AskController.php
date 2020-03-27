@@ -109,4 +109,15 @@ class AskController extends AbstractController
 
         return $this->redirectToRoute('ask_index');
     }
+
+    /**
+     * @Route("/mission-{id}", name="ask_show")
+     */
+    public function show(Ask $ask): Response
+    {   
+        return $this->render('ask/vuedet.html.twig', [
+            'controller_name' => 'AskController',
+            'ask' => $ask
+        ]);
+    }
 }
