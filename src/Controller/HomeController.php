@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
 class HomeController extends AbstractController
 {
@@ -48,12 +48,11 @@ class HomeController extends AbstractController
             $entityManager->persist($task);
             $entityManager->flush();
 
-            $message = (new Email())
-                ->from('entraide@covid.com')
+            $message = (new TemplatedEmail())
+                ->from('entraide@covid.nc')
                 ->to($task->getEmail())
-                ->subject('Time for Symfony Mailer!')
-                ->text('Sending emails is fun again!')
-                ->html('<p>See Twig integration for better HTML integration!</p>');
+                ->subject('Message Envoyé!')
+                ->htmlTemplate('emails/signup.html.twig');
 
             $mailer->send($message);
     
