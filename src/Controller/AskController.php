@@ -119,10 +119,12 @@ class AskController extends AbstractController
     }
 
     /**
-     * @Route("/mission-{id}", name="ask_show")
+     * @Route("/mission/{slug}", name="ask_show")
      */
-    public function show(Ask $ask): Response
+    public function show($slug, AskRepository $repo): Response
     {   
+        $ask = $repo->findOneBySlug($slug);
+
         return $this->render('ask/vuedet.html.twig', [
             'controller_name' => 'AskController',
             'ask' => $ask
