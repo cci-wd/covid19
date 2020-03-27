@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Ask;
 use App\Form\AskType;
+use Cocur\Slugify\Slugify;
 use App\Repository\AskRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -52,6 +53,7 @@ class AskController extends AbstractController
      */
     public function new(Request $request): Response
     {   
+        $slugify = new Slugify();
         $current_user = $this->getUser();
         date_default_timezone_set("Pacific/Noumea");
         $date = date("d-m-Y");
@@ -61,12 +63,18 @@ class AskController extends AbstractController
         $form = $this->createForm(AskType::class, $ask);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($ask);
-            $entityManager->flush();
+        if ($form->isSubmitted()) {
 
-            return $this->redirectToRoute('home');
+            $slug = $slugify->slugify($form['title']->getData());
+            $ask->setSlug($slug);
+
+            if( $form->isValid()) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($ask);
+                $entityManager->flush();
+                return $this->redirectToRoute('myask');
+            }
+
         }
 
         return $this->render('ask/new.html.twig', [
@@ -111,13 +119,16 @@ class AskController extends AbstractController
     }
 
     /**
-     * @Route("/mission-{id}", name="ask_show")
+     * @Route("/mission/{slug}", name="ask_show")
      */
-    public function show(Ask $ask): Response
+    public function show($slug, AskRepository $repo): Response
     {   
+        $ask = $repo->findOneBySlug($slug);
+
         return $this->render('ask/vuedet.html.twig', [
             'controller_name' => 'AskController',
             'ask' => $ask
         ]);
     }
+
 }
