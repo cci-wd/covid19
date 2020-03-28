@@ -20,7 +20,7 @@
 				</div>
 			</div>
 			<!--Inner Home End-->
-			<!--Main Start-->                
+			<!--Main Start-->
 			<main id="wt-main" class="wt-main wt-haslayout wt-innerbgcolor">
 				<!--Register Form Start-->
 				<div class="wt-haslayout wt-main-section">
@@ -34,19 +34,19 @@
 												<h3>Proposer une mission</h3>
 											</div>
 											<div class="wt-description">
-												<p>Vous avez besoin d'aide, d'assistance ou de présence ? Proposer votre mission !</p>
+												<p>Vous avez besoin d'aide, d'assistance ou de présence ? Proposez votre mission !</p>
 											</div>
 										</div>
 										<div class="wt-joinforms">
 											{{ form_start(form, { 'attr': {'class': 'wt-formtheme wt-formregister'} }) }}
 												<fieldset class="wt-registerformgroup">
-													<div class="form-group form-group-half">													
+													<div class="form-group form-group-half">
 														<label>Titre de votre mission</label>
 														{% if not form.title.vars.valid %}
 															{{ form_widget(form.title, { 'attr': {'class': 'form-control is-invalid'} }) }}
 														{% else %}
 															{{ form_widget(form.title, { 'attr': {'class': 'form-control'} }) }}
-														{% endif %}									
+														{% endif %}
 														<div class="invalid-feedback">
         													{{ form_errors(form.title) }}
       													</div>
