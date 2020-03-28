@@ -7,6 +7,8 @@ use App\Form\AskType;
 use App\Entity\Answer;
 use Cocur\Slugify\Slugify;
 use App\Repository\AskRepository;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -142,24 +144,47 @@ class AskController extends AbstractController
     /**
      * @Route("/je-participe/{slug}", name="answer")
      */
-    public function answer($slug, AskRepository $repo): Response
+    public function answer($slug, AskRepository $repo, MailerInterface $mailer): Response
     {   
-        $answer = new Answer();
-        $content = $_POST["content"];
-        date_default_timezone_set("Pacific/Noumea");
-        $date = date("d-m-Y");
-        $ask = $repo->findOneBySlug($slug);
-        $current_user = $this->getUser();
+        
+        if(isset($_POST['content'])) {
 
-        $answer->setContent($content);
-        $answer->setDate(\DateTime::createFromFormat('d-m-Y', $date));
-        $answer->setAsk($ask);
-        $answer->setUser($current_user);
+            $answer = new Answer();
+            $content = $_POST["content"];
+            date_default_timezone_set("Pacific/Noumea");
+            $date = date("d-m-Y");
+            $ask = $repo->findOneBySlug($slug);
+            $current_user = $this->getUser();
+            $answer->setContent($content);
+            $answer->setDate(\DateTime::createFromFormat('d-m-Y', $date));
+            $answer->setAsk($ask);
+            $answer->setUser($current_user);
 
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($answer);
+            $entityManager->flush();
 
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($answer);
-        $entityManager->flush();
+            $confirmation = (new TemplatedEmail())
+                ->from('entraide@covid.nc')
+                ->to($current_user->getEmail())
+                ->subject('Votre demande a été envoyée!')
+                ->htmlTemplate('mail/ask.html.twig');
+
+            $notification = (new TemplatedEmail())
+                ->from('entraide@covid.nc')
+                ->to($ask->getUser()->getEmail())
+                ->subject("Demande de participation: " . $ask->getTitle())
+                ->htmlTemplate('mail/answer.html.twig')
+                ->context([
+                    'content' => $content
+            ]);
+
+            $mailer->send($confirmation);
+            $mailer->send($notification);
+
+            return $this->redirectToRoute('thanks');
+        }
+
         return $this->redirectToRoute('home');
     }
 }
