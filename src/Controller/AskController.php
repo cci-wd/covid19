@@ -165,7 +165,7 @@ class AskController extends AbstractController
             $entityManager->flush();
 
             $confirmation = (new TemplatedEmail())
-                ->from('entraide@covid.nc')
+                ->from('contact@entraide.nc')
                 ->to($current_user->getEmail())
                 ->subject('Votre demande a été envoyée!')
                 ->htmlTemplate('mail/ask.html.twig')
@@ -175,7 +175,7 @@ class AskController extends AbstractController
                 ]);
 
             $notification = (new TemplatedEmail())
-                ->from('entraide@covid.nc')
+                ->from('contact@entraide.nc')
                 ->to($ask->getUser()->getEmail())
                 ->subject("Demande de participation: " . $ask->getTitle())
                 ->htmlTemplate('mail/answer.html.twig')

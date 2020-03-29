@@ -71,7 +71,7 @@ class HomeController extends AbstractController
             $entityManager->flush();
 
             $message = (new TemplatedEmail())
-                ->from('entraide@covid.nc')
+                ->from('contact@entraide.nc')
                 ->to($task->getEmail())
                 ->subject('Message Envoyé!')
                 ->htmlTemplate('mail/contact.html.twig')
