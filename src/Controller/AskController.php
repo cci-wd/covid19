@@ -168,7 +168,11 @@ class AskController extends AbstractController
                 ->from('entraide@covid.nc')
                 ->to($current_user->getEmail())
                 ->subject('Votre demande a été envoyée!')
-                ->htmlTemplate('mail/ask.html.twig');
+                ->htmlTemplate('mail/ask.html.twig')
+                ->context([
+                    'mission_name' => $ask->getTitle(),
+                    'content' => $content,
+                ]);
 
             $notification = (new TemplatedEmail())
                 ->from('entraide@covid.nc')
@@ -176,7 +180,11 @@ class AskController extends AbstractController
                 ->subject("Demande de participation: " . $ask->getTitle())
                 ->htmlTemplate('mail/answer.html.twig')
                 ->context([
-                    'content' => $content
+                    'content' => $content,
+                    'mission_name' => $ask->getTitle(),
+                    'user_email' => $current_user->getEmail(),
+                    'user_tel' => $current_user->getTel(),
+                    'user_name' => $current_user->getName()
             ]);
 
             $mailer->send($confirmation);
