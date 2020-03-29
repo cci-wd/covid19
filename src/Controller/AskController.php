@@ -118,7 +118,7 @@ class AskController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('ask_index');
+        return $this->redirectToRoute('myask');
     }
 
     /**
