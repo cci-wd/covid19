@@ -33,6 +33,26 @@ class HomeController extends AbstractController
     }
 
     /**
+     * @Route("/mentions-legales", name="mentionslegales")
+     */
+    public function mentionslegales()
+    {
+        return $this->render('pages/mentionslegales.html.twig', [
+            'controller_name' => '',
+        ]);
+    }
+
+    /**
+     * @Route("/rgpd", name="rgpd")
+     */
+    public function rgpd()
+    {
+        return $this->render('pages/rgpd.html.twig', [
+            'controller_name' => '',
+        ]);
+    }
+
+    /**
      * @Route("/contact", name="contact")
      */
     public function contact(MailerInterface $mailer, Request $request)
@@ -41,9 +61,9 @@ class HomeController extends AbstractController
         date_default_timezone_set("Pacific/Noumea");
         $task->setDate(new \DateTime());
         $form = $this->createForm(ContactType::class, $task);
-
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
 
             $task = $form->getData();
             $entityManager = $this->getDoctrine()->getManager();
@@ -54,13 +74,15 @@ class HomeController extends AbstractController
                 ->from('entraide@covid.nc')
                 ->to($task->getEmail())
                 ->subject('Message Envoyé!')
-                ->htmlTemplate('mail/contact.html.twig');
-
-                /* A rajouter si tu veux faire passer des variables au template
+                ->htmlTemplate('mail/contact.html.twig')
                 ->context([
-                    'expiration_date' => new \DateTime('+7 days'),
-                    'username' => 'foo',
-                ]) */
+                    'name' => $task->getName(),
+                    'surname' => $task->getSurname(),
+                    'tel' => $task->getPhone(),
+                    'content' => $task->getContent(),
+                ]);
+
+
 
 
             $mailer->send($message);
